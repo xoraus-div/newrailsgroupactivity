@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Doidate:</strong>
+  <%= @doi.doidate %>
+</p>
+
+<p>
+  <strong>Animal:</strong>
+  <%= @doi.animal_id %>
+</p>
+
+<p>
+  <strong>Disease:</strong>
+  <%= @doi.disease_id %>
+</p>
+
+<%= link_to 'Edit', edit_doi_path(@doi) %> |
+<%= link_to 'Back', dois_path %>

@@ -1,0 +1,299 @@
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOwners (20191023015959)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "owners" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "ownername" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20191023015959"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-10-23 02:00:13.832218"], ["updated_at", "2019-10-23 02:00:13.832218"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateAnimals (20191023020041)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "animals" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "animalname" varchar, "owner_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_8d97761a89"
+FOREIGN KEY ("owner_id")
+  REFERENCES "owners" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_animals_on_owner_id" ON "animals" ("owner_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20191023020041"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateDiseases (20191023020207)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "diseases" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "diseasename" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20191023020207"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDois (20191023020700)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "dois" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "doidate" date, "animal_id" integer NOT NULL, "disease_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4f77395524"
+FOREIGN KEY ("animal_id")
+  REFERENCES "animals" ("id")
+, CONSTRAINT "fk_rails_87a543c5bd"
+FOREIGN KEY ("disease_id")
+  REFERENCES "diseases" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_dois_on_animal_id" ON "dois" ("animal_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_dois_on_disease_id" ON "dois" ("disease_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20191023020700"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for ::1 at 2019-10-22 21:07:30 -0500
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/xoraus/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/railties-6.0.0/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/xoraus/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/railties-6.0.0/lib/rails/templates/rails/welcome/index.html.erb (Duration: 9.0ms | Allocations: 485)
+Completed 200 OK in 26ms (Views: 15.6ms | ActiveRecord: 0.0ms | Allocations: 2927)
+
+
+Started GET "/animals" for ::1 at 2019-10-22 21:07:40 -0500
+Processing by AnimalsController#index as HTML
+  Rendering animals/index.html.erb within layouts/application
+  [1m[36mAnimal Load (0.6ms)[0m  [1m[34mSELECT "animals".* FROM "animals"[0m
+  ↳ app/views/animals/index.html.erb:15
+  Rendered animals/index.html.erb within layouts/application (Duration: 10.3ms | Allocations: 1321)
+[Webpacker] Compiling…
+[Webpacker] Compiled all packs in /Users/xoraus/RubyCIS4339/groupworkone/newrailsgroupworkone/petappf/public/packs
+Completed 200 OK in 4660ms (Views: 4644.2ms | ActiveRecord: 1.7ms | Allocations: 1577219)
+
+
+Started GET "/diseases" for ::1 at 2019-10-22 21:08:09 -0500
+Processing by DiseasesController#index as HTML
+  Rendering diseases/index.html.erb within layouts/application
+  [1m[36mDisease Load (0.3ms)[0m  [1m[34mSELECT "diseases".* FROM "diseases"[0m
+  ↳ app/views/diseases/index.html.erb:14
+  Rendered diseases/index.html.erb within layouts/application (Duration: 3.9ms | Allocations: 1315)
+Completed 200 OK in 19ms (Views: 15.9ms | ActiveRecord: 0.6ms | Allocations: 10993)
+
+
+Started GET "/doi" for ::1 at 2019-10-22 21:08:18 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/doi"):
+  
+actionpack (6.0.0) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+web-console (4.0.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.0.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.0) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/method_override.rb:22:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.0) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+webpacker (4.0.7) lib/webpacker/dev_server_proxy.rb:29:in `perform_request'
+rack-proxy (0.6.5) lib/rack/proxy.rb:57:in `call'
+railties (6.0.0) lib/rails/engine.rb:526:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/dois" for ::1 at 2019-10-22 21:08:21 -0500
+Processing by DoisController#index as HTML
+  Rendering dois/index.html.erb within layouts/application
+  [1m[36mDoi Load (0.3ms)[0m  [1m[34mSELECT "dois".* FROM "dois"[0m
+  ↳ app/views/dois/index.html.erb:16
+  Rendered dois/index.html.erb within layouts/application (Duration: 4.2ms | Allocations: 1300)
+Completed 200 OK in 23ms (Views: 18.7ms | ActiveRecord: 0.7ms | Allocations: 11620)
+
+
+Started GET "/owners" for ::1 at 2019-10-22 21:08:29 -0500
+Processing by OwnersController#index as HTML
+  Rendering owners/index.html.erb within layouts/application
+  [1m[36mOwner Load (0.5ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  ↳ app/views/owners/index.html.erb:14
+  Rendered owners/index.html.erb within layouts/application (Duration: 2.8ms | Allocations: 1137)
+Completed 200 OK in 33ms (Views: 29.9ms | ActiveRecord: 0.7ms | Allocations: 10837)
+
+
+Started GET "/owners/new" for ::1 at 2019-10-22 21:08:31 -0500
+Processing by OwnersController#new as HTML
+  Rendering owners/new.html.erb within layouts/application
+  Rendered owners/_form.html.erb (Duration: 17.4ms | Allocations: 4684)
+  Rendered owners/new.html.erb within layouts/application (Duration: 18.6ms | Allocations: 5049)
+Completed 200 OK in 41ms (Views: 34.8ms | ActiveRecord: 0.4ms | Allocations: 16741)
+
+
+Started POST "/owners" for ::1 at 2019-10-22 21:08:34 -0500
+Processing by OwnersController#create as HTML
+  Parameters: {"authenticity_token"=>"i6z7vcbjvOlDXhnzUf8YG10+o8BYHoEtd4A6BgxlS3hN3c6FlYHmsXss0UKVZcrkNbsar93G0k0kNnHG3OhdHA==", "owner"=>{"ownername"=>"Div"}, "commit"=>"Create Owner"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/owners_controller.rb:30:in `block in create'
+  [1m[36mOwner Create (0.8ms)[0m  [1m[32mINSERT INTO "owners" ("ownername", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["ownername", "Div"], ["created_at", "2019-10-23 02:08:34.617347"], ["updated_at", "2019-10-23 02:08:34.617347"]]
+  ↳ app/controllers/owners_controller.rb:30:in `block in create'
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/owners_controller.rb:30:in `block in create'
+Redirected to http://localhost:3000/owners/1
+Completed 302 Found in 6ms (ActiveRecord: 1.4ms | Allocations: 2931)
+
+
+Started GET "/owners/1" for ::1 at 2019-10-22 21:08:34 -0500
+Processing by OwnersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mOwner Load (0.5ms)[0m  [1m[34mSELECT "owners".* FROM "owners" WHERE "owners"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/owners_controller.rb:67:in `set_owner'
+  Rendering owners/show.html.erb within layouts/application
+  Rendered owners/show.html.erb within layouts/application (Duration: 1.0ms | Allocations: 258)
+Completed 200 OK in 24ms (Views: 17.8ms | ActiveRecord: 0.5ms | Allocations: 10479)
+
+
+Started GET "/animals/new" for ::1 at 2019-10-22 21:08:45 -0500
+Processing by AnimalsController#new as HTML
+  Rendering animals/new.html.erb within layouts/application
+  Rendered animals/_form.html.erb (Duration: 4.4ms | Allocations: 1224)
+  Rendered animals/new.html.erb within layouts/application (Duration: 6.4ms | Allocations: 1579)
+Completed 200 OK in 27ms (Views: 18.9ms | ActiveRecord: 0.4ms | Allocations: 13693)
+
+
+Started POST "/animals" for ::1 at 2019-10-22 21:08:52 -0500
+Processing by AnimalsController#create as HTML
+  Parameters: {"authenticity_token"=>"2G+SIDwPz9AxTpPswPuPTYphIxEmqWxYzd8j7TmlgGhkG5B4SHQoQ/twh1QH8/jKVsk/GeQuFc3oY2pp7BF3JQ==", "animal"=>{"animalname"=>"Cat", "owner_id"=>"1"}, "commit"=>"Create Animal"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/animals_controller.rb:30:in `block in create'
+  [1m[36mOwner Load (0.2ms)[0m  [1m[34mSELECT "owners".* FROM "owners" WHERE "owners"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/animals_controller.rb:30:in `block in create'
+  [1m[36mAnimal Create (0.9ms)[0m  [1m[32mINSERT INTO "animals" ("animalname", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["animalname", "Cat"], ["owner_id", 1], ["created_at", "2019-10-23 02:08:52.051727"], ["updated_at", "2019-10-23 02:08:52.051727"]]
+  ↳ app/controllers/animals_controller.rb:30:in `block in create'
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/animals_controller.rb:30:in `block in create'
+Redirected to http://localhost:3000/animals/1
+Completed 302 Found in 24ms (ActiveRecord: 2.1ms | Allocations: 10564)
+
+
+Started GET "/animals/1" for ::1 at 2019-10-22 21:08:52 -0500
+Processing by AnimalsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mAnimal Load (0.3ms)[0m  [1m[34mSELECT "animals".* FROM "animals" WHERE "animals"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/animals_controller.rb:67:in `set_animal'
+  Rendering animals/show.html.erb within layouts/application
+  Rendered animals/show.html.erb within layouts/application (Duration: 1.5ms | Allocations: 282)
+Completed 200 OK in 16ms (Views: 13.3ms | ActiveRecord: 0.3ms | Allocations: 9896)
+
+
+Started GET "/animals" for ::1 at 2019-10-22 21:08:58 -0500
+Processing by AnimalsController#index as HTML
+  Rendering animals/index.html.erb within layouts/application
+  [1m[36mAnimal Load (0.2ms)[0m  [1m[34mSELECT "animals".* FROM "animals"[0m
+  ↳ app/views/animals/index.html.erb:15
+  Rendered animals/index.html.erb within layouts/application (Duration: 1.8ms | Allocations: 769)
+Completed 200 OK in 16ms (Views: 15.2ms | ActiveRecord: 0.2ms | Allocations: 9579)
+
+
+Started GET "/diseases/new" for ::1 at 2019-10-22 21:09:01 -0500
+Processing by DiseasesController#new as HTML
+  Rendering diseases/new.html.erb within layouts/application
+  Rendered diseases/_form.html.erb (Duration: 5.2ms | Allocations: 954)
+  Rendered diseases/new.html.erb within layouts/application (Duration: 7.8ms | Allocations: 1309)
+Completed 200 OK in 40ms (Views: 32.7ms | ActiveRecord: 0.4ms | Allocations: 12748)
+
+
+Started POST "/diseases" for ::1 at 2019-10-22 21:09:24 -0500
+Processing by DiseasesController#create as HTML
+  Parameters: {"authenticity_token"=>"M6QK3FTmEOp25+n9rgzHelqL+T86K+7vRbtBMdyHtQIDguBEn+HJRchJZnAuUer1qOVguGaZG5v7E8JruZmknQ==", "disease"=>{"diseasename"=>"Cold"}, "commit"=>"Create Disease"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/diseases_controller.rb:30:in `block in create'
+  [1m[36mDisease Create (0.3ms)[0m  [1m[32mINSERT INTO "diseases" ("diseasename", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["diseasename", "Cold"], ["created_at", "2019-10-23 02:09:24.016047"], ["updated_at", "2019-10-23 02:09:24.016047"]]
+  ↳ app/controllers/diseases_controller.rb:30:in `block in create'
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/diseases_controller.rb:30:in `block in create'
+Redirected to http://localhost:3000/diseases/1
+Completed 302 Found in 6ms (ActiveRecord: 1.5ms | Allocations: 2722)
+
+
+Started GET "/diseases/1" for ::1 at 2019-10-22 21:09:24 -0500
+Processing by DiseasesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDisease Load (0.3ms)[0m  [1m[34mSELECT "diseases".* FROM "diseases" WHERE "diseases"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/diseases_controller.rb:67:in `set_disease'
+  Rendering diseases/show.html.erb within layouts/application
+  Rendered diseases/show.html.erb within layouts/application (Duration: 1.2ms | Allocations: 256)
+Completed 200 OK in 18ms (Views: 15.1ms | ActiveRecord: 0.3ms | Allocations: 9857)
+
+
+Started GET "/diseases" for ::1 at 2019-10-22 21:09:25 -0500
+Processing by DiseasesController#index as HTML
+  Rendering diseases/index.html.erb within layouts/application
+  [1m[36mDisease Load (0.4ms)[0m  [1m[34mSELECT "diseases".* FROM "diseases"[0m
+  ↳ app/views/diseases/index.html.erb:14
+  Rendered diseases/index.html.erb within layouts/application (Duration: 4.6ms | Allocations: 749)
+Completed 200 OK in 29ms (Views: 26.7ms | ActiveRecord: 0.4ms | Allocations: 9561)
+
+
+Started GET "/dois/new" for ::1 at 2019-10-22 21:09:28 -0500
+Processing by DoisController#new as HTML
+  Rendering dois/new.html.erb within layouts/application
+  Rendered dois/_form.html.erb (Duration: 23.1ms | Allocations: 6354)
+  Rendered dois/new.html.erb within layouts/application (Duration: 24.6ms | Allocations: 6709)
+Completed 200 OK in 46ms (Views: 39.4ms | ActiveRecord: 0.3ms | Allocations: 19406)
+
+
+Started POST "/dois" for ::1 at 2019-10-22 21:09:34 -0500
+Processing by DoisController#create as HTML
+  Parameters: {"authenticity_token"=>"judq7KA6F3NS2gof/dIGn+VC8jnK8q3WMFk+JlmE+6qClz8BKUnjFLy6MQBXySOjr5Myrepjqtngdg1yZwxMUg==", "doi"=>{"doidate(1i)"=>"2019", "doidate(2i)"=>"10", "doidate(3i)"=>"23", "animal_id"=>"1", "disease_id"=>"1"}, "commit"=>"Create Doi"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/dois_controller.rb:30:in `block in create'
+  [1m[36mAnimal Load (0.1ms)[0m  [1m[34mSELECT "animals".* FROM "animals" WHERE "animals"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/dois_controller.rb:30:in `block in create'
+  [1m[36mDisease Load (0.2ms)[0m  [1m[34mSELECT "diseases".* FROM "diseases" WHERE "diseases"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/dois_controller.rb:30:in `block in create'
+  [1m[36mDoi Create (0.4ms)[0m  [1m[32mINSERT INTO "dois" ("doidate", "animal_id", "disease_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["doidate", "2019-10-23"], ["animal_id", 1], ["disease_id", 1], ["created_at", "2019-10-23 02:09:34.046910"], ["updated_at", "2019-10-23 02:09:34.046910"]]
+  ↳ app/controllers/dois_controller.rb:30:in `block in create'
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/dois_controller.rb:30:in `block in create'
+Redirected to http://localhost:3000/dois/1
+Completed 302 Found in 12ms (ActiveRecord: 1.6ms | Allocations: 6374)
+
+
+Started GET "/dois/1" for ::1 at 2019-10-22 21:09:34 -0500
+Processing by DoisController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDoi Load (0.2ms)[0m  [1m[34mSELECT "dois".* FROM "dois" WHERE "dois"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/dois_controller.rb:67:in `set_doi'
+  Rendering dois/show.html.erb within layouts/application
+  Rendered dois/show.html.erb within layouts/application (Duration: 1.1ms | Allocations: 316)
+Completed 200 OK in 15ms (Views: 12.7ms | ActiveRecord: 0.2ms | Allocations: 9922)
+
+
+Started GET "/dois" for ::1 at 2019-10-22 21:09:36 -0500
+Processing by DoisController#index as HTML
+  Rendering dois/index.html.erb within layouts/application
+  [1m[36mDoi Load (0.1ms)[0m  [1m[34mSELECT "dois".* FROM "dois"[0m
+  ↳ app/views/dois/index.html.erb:16
+  Rendered dois/index.html.erb within layouts/application (Duration: 1.3ms | Allocations: 762)
+Completed 200 OK in 15ms (Views: 14.1ms | ActiveRecord: 0.1ms | Allocations: 9579)
+
+
+Started GET "/owners" for ::1 at 2019-10-22 21:09:41 -0500
+Processing by OwnersController#index as HTML
+  Rendering owners/index.html.erb within layouts/application
+  [1m[36mOwner Load (0.2ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  ↳ app/views/owners/index.html.erb:14
+  Rendered owners/index.html.erb within layouts/application (Duration: 1.8ms | Allocations: 756)
+Completed 200 OK in 17ms (Views: 15.8ms | ActiveRecord: 0.2ms | Allocations: 9569)
+
+
