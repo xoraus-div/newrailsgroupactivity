@@ -297,3 +297,41 @@ Processing by OwnersController#index as HTML
 Completed 200 OK in 17ms (Views: 15.8ms | ActiveRecord: 0.2ms | Allocations: 9569)
 
 
+Started GET "/animals" for ::1 at 2019-10-22 22:32:54 -0500
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AnimalsController#index as HTML
+  Rendering animals/index.html.erb within layouts/application
+  [1m[36mAnimal Load (0.3ms)[0m  [1m[34mSELECT "animals".* FROM "animals"[0m
+  ↳ app/views/animals/index.html.erb:15
+  Rendered animals/index.html.erb within layouts/application (Duration: 15.4ms | Allocations: 5204)
+Completed 200 OK in 1243ms (Views: 1221.2ms | ActiveRecord: 1.0ms | Allocations: 1557580)
+
+
+Started GET "/diseases" for ::1 at 2019-10-22 22:32:56 -0500
+Processing by DiseasesController#index as HTML
+  Rendering diseases/index.html.erb within layouts/application
+  [1m[36mDisease Load (0.6ms)[0m  [1m[34mSELECT "diseases".* FROM "diseases"[0m
+  ↳ app/views/diseases/index.html.erb:14
+  Rendered diseases/index.html.erb within layouts/application (Duration: 8.9ms | Allocations: 4037)
+Completed 200 OK in 29ms (Views: 24.4ms | ActiveRecord: 1.3ms | Allocations: 13699)
+
+
+Started GET "/dois" for ::1 at 2019-10-22 22:32:59 -0500
+Processing by DoisController#index as HTML
+  Rendering dois/index.html.erb within layouts/application
+  [1m[36mDoi Load (0.3ms)[0m  [1m[34mSELECT "dois".* FROM "dois"[0m
+  ↳ app/views/dois/index.html.erb:16
+  Rendered dois/index.html.erb within layouts/application (Duration: 9.0ms | Allocations: 5306)
+Completed 200 OK in 28ms (Views: 23.6ms | ActiveRecord: 1.0ms | Allocations: 15497)
+
+
+Started GET "/owners" for ::1 at 2019-10-22 22:33:00 -0500
+Processing by OwnersController#index as HTML
+  Rendering owners/index.html.erb within layouts/application
+  [1m[36mOwner Load (0.3ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  ↳ app/views/owners/index.html.erb:14
+  Rendered owners/index.html.erb within layouts/application (Duration: 9.9ms | Allocations: 3811)
+Completed 200 OK in 55ms (Views: 50.7ms | ActiveRecord: 0.8ms | Allocations: 14030)
+
+
